@@ -165,10 +165,10 @@ public class CursosSQL implements Dao<Curso> {
 					Profesor profesor = null;
 
 					if (rs.next()) {
-						profesor = new Profesor(rs.getInt("codigo"), rs.getString("nombre"), rs.getString("apellidos"));
+						profesor = new Profesor(rs.getInt("p.codigo"), rs.getString("p.nombre"), rs.getString("p.apellidos"));
 						
-						curso = new Curso(rs.getInt("id"), rs.getString("nombre"),
-								rs.getString("identificador"), rs.getString("nHoras"), profesor);
+						curso = new Curso(rs.getInt("c.codigo"), rs.getString("c.nombre"),
+								rs.getString("c.identificador"), rs.getString("c.nHoras"), profesor);
 					}
 
 					return curso;
