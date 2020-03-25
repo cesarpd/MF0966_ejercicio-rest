@@ -7,24 +7,28 @@ public class Resena {
 
 	private Integer id;
 	private String resena;
-	
+
 	private Curso curso;
-	
-	public Resena(Integer id, String resena, Curso curso) {
+	private Alumno alumno;
+
+	public Resena(Integer id, String resena, Curso curso, Alumno alumno) {
 		setId(id);
 		setResena(resena);
 		setCurso(curso);
-	}
-	public Resena(String id, String resena, String curso) {
-		setId(id);
-		setResena(resena);
-		setCurso(curso);
+		setAlumno(alumno);
 	}
 
-	
+	public Resena(String id, String resena, String curso, String alumno) {
+		setId(id);
+		setResena(resena);
+		setCurso(curso);
+		setAlumno(alumno);
+	}
+
 	// Constructor vacio
-	public Resena() {}
-	
+	public Resena() {
+	}
+
 	// Strings Getters and Setters
 	private void setId(String id) {
 		try {
@@ -35,8 +39,9 @@ public class Resena {
 			}
 		} catch (NumberFormatException e) {
 			LOGGER.info("El id del curso debe ser numérico");
-		}		}
-	
+		}
+	}
+
 	private void setCurso(String curso) {
 		if (curso == null) {
 			LOGGER.info("Debes seleccionar un profesor");
@@ -49,13 +54,23 @@ public class Resena {
 		}
 	}
 
+	private void setAlumno(String alumno) {
+		if (alumno == null) {
+			LOGGER.info("Debes seleccionar un alumno");
+		} else {
+			try {
+				setAlumno(new Alumno(Integer.parseInt(alumno), null, null));
+			} catch (NumberFormatException e) {
+				LOGGER.info("El id del alumno debe ser numérico");
+			}
+		}
+	}
 
-	
 	// Getters and Setters
 	public void setResena(String resena) {
 		this.resena = resena;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -63,7 +78,6 @@ public class Resena {
 	public Integer getId() {
 		return id;
 	}
-
 
 	public String getResena() {
 		return resena;
@@ -77,9 +91,12 @@ public class Resena {
 		this.curso = curso;
 	}
 
+	public Alumno getAlumno() {
+		return alumno;
+	}
 
-	
-	
-	
-	
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
+	}
+
 }

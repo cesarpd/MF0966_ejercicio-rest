@@ -24,6 +24,7 @@ public class AppListener implements ServletContextListener {
 		FabricaDao fabricaDao = FabricaDaoProperties.getInstancia(pathConfiguracion);
 		
 		Globales.daoCursos = fabricaDao.getCursoDao();
+		Globales.daoResenas = fabricaDao.getResenaDao();
 	}
 	
 }

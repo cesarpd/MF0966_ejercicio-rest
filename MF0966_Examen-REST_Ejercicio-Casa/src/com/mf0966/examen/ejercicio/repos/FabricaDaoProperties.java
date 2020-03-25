@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.mf0966.examen.ejercicio.exceptions.RepositoriosException;
 import com.mf0966.examen.ejercicio.models.Curso;
+import com.mf0966.examen.ejercicio.models.Resena;
 
 public class FabricaDaoProperties implements FabricaDao {
 
@@ -63,6 +64,19 @@ public class FabricaDaoProperties implements FabricaDao {
 		switch (tipo) {
 		case "mysql":
 			return CursosSQL.getInstancia(url, usuario, password);
+		default:
+			throw new RepositoriosException("No reconozco el tipo " + tipo);
+		}
+	}
+	@Override
+	public Dao<Resena> getResenaDao() {
+		if (tipo == null) {
+			throw new RepositoriosException("No se ha recibido ningún tipo");
+		}
+		
+		switch (tipo) {
+		case "mysql":
+			return ResenaSQL.getInstancia(url, usuario, password);
 		default:
 			throw new RepositoriosException("No reconozco el tipo " + tipo);
 		}
