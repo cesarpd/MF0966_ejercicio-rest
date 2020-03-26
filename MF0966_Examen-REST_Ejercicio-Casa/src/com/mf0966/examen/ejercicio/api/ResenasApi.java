@@ -1,11 +1,11 @@
 package com.mf0966.examen.ejercicio.api;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,7 +23,7 @@ import com.mf0966.examen.ejercicio.repos.Globales;
 public class ResenasApi {
 private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanonicalName());
 	
-	private static List<Resena> listaResenas = new ArrayList<Resena>();
+	private static List<Resena> listaResenas = (List<Resena>) Globales.daoResenas.getAll();
 	
 	/**
 	 * URL: http://localhost:8080/MF0966_Examen-REST_Ejercicio-Casa/api/resenas
@@ -31,7 +31,6 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 	 */
 	@GET
 	public Response getResenas() {
-		listaResenas = (List<Resena>) Globales.daoResenas.getAll();
 		LOGGER.info("Listado de Resenas con curso");
 		return Response.ok(listaResenas).build();
 	}
@@ -40,9 +39,8 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 	 * @return Response list Resenas
 	 */
 	@GET
-	@Path("/{id}")
+	@Path("/{id: \\d+}")
 	public Response getResenaById(@PathParam("id") Integer id) {
-		listaResenas = (List<Resena>) Globales.daoResenas.getAll();
 		
 		Resena resenaEncontrado = null;
 		
@@ -60,5 +58,34 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 			return Response.ok(resenaEncontrado).build();
 		}
 	}
+	/**
+	 * URL: http://localhost:8080/MF0966_Examen-REST_Ejercicio-Casa/api/resenas/crear
+	 * Parameters in Postman:
+	 * {
+	 * "resena": "Bueno",
+	 * 	"curso": 3,
+	 * 	"alumno": 2
+	 * }
+	 * 
+	 * @param Resena
+	 * @return Response list NOTA: Si no existe el constructor vacío de Resena, da un
+	 *         error y el userRequest viene null.
+	 */
+	
+	@POST
+	@Path("/crear")
+
+	public Response createUser(Resena resena) {
+
+		try {
+			Globales.daoResenas.insert(resena);
+		} catch (NullPointerException e) {
+			LOGGER.info("Null pointer exception al insertar la sentencia: " + e);
+			return Response.status(Status.BAD_REQUEST).entity("Faltan argumentos en la sentencia").build();			
+		}
+		return Response.ok(resena).build();
+
+	}	
+	
 
 }

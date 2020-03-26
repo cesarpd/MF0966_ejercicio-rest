@@ -19,8 +19,9 @@ import com.mf0966.examen.ejercicio.models.Profesor;
 import com.mf0966.examen.ejercicio.models.Resena;
 
 public class ResenaSQL implements Dao<Resena>{
-	private static final String SQL_GET_ALL = "CALL Resenas_GetAll()";
+	private static final String SQL_GET_ALL = "CALL resenasGetAll()";
 	private static final String SQL_GET_BY_ID = "CALL Resenas_GetById(?)";
+	private static final String SQL_INSERT = "CALL resenasInsert(?,?,?,?)";
 
 	private final String url, usuario, password;
 
@@ -121,6 +122,8 @@ public class ResenaSQL implements Dao<Resena>{
 			}
 		}
 
+		// Metodos a implementar
+
 		@Override
 		public Iterable<Resena> getAll() {
 			try (Connection con = getConexion()) {
@@ -192,5 +195,47 @@ public class ResenaSQL implements Dao<Resena>{
 			}
 		}
 
-		// Metodos a implementar
+		
+		@Override
+		public Integer insert(Resena resena) {
+			try (Connection con = getConexion()) {
+				try (CallableStatement s = con.prepareCall(SQL_INSERT)) {
+					s.setString(1,  resena.getResena());
+					s.setInt(2,  resena.getAlumno().getId());
+					s.setInt(3,  resena.getCurso().getId());
+					
+					s.registerOutParameter(4, java.sql.Types.INTEGER);
+					
+					int numeroRegistrosModificados = s.executeUpdate();
+
+					if (numeroRegistrosModificados != 1) {
+						throw new RepositoriosException("Número de registros modificados: " + numeroRegistrosModificados);
+					}
+
+					return s.getInt(4);
+	
+				} catch (SQLException e) {
+					throw new RepositoriosException("Error al crear la sentencia", e);
+				}
+			} catch (SQLException e) {
+				throw new RepositoriosException("Error al conectar", e);
+			}
+		}
+
+		@Override
+		public void update(Resena resena) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void delete(Long id) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+
+
+
 }
