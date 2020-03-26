@@ -20,7 +20,7 @@ import com.mf0966.examen.ejercicio.models.Resena;
 
 public class ResenaSQL implements Dao<Resena> {
 	private static final String SQL_GET_ALL = "CALL resenasGetAll()";
-	private static final String SQL_GET_BY_ID = "CALL Resenas_GetById(?)";
+	private static final String SQL_GET_BY_ID = "CALL resenasGetById(?)";
 	private static final String SQL_INSERT = "CALL resenasInsert(?,?,?,?)";
 	private static final String SQL_DELETE = "CALL resenasDelete(?)";
 
@@ -168,6 +168,9 @@ public class ResenaSQL implements Dao<Resena> {
 	public Resena getById(Integer id) {
 		try (Connection con = getConexion()) {
 			try (CallableStatement s = con.prepareCall(SQL_GET_BY_ID)) {
+				
+				s.setInt(1, id);
+				
 				try (ResultSet rs = s.executeQuery()) {
 
 					Resena resena = null;

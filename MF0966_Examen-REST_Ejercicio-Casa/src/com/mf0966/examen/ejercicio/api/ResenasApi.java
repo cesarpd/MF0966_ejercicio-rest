@@ -31,9 +31,10 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 	 * @return Response list Resenas
 	 */
 	@GET
-	public Response getResenas() {
+	public Iterable<Resena> getResenas() {
 		LOGGER.info("Listado de Resenas con curso");
-		return Response.ok(listaResenas).build();
+		//return Response.ok(listaResenas).build();
+		return Globales.daoResenas.getAll();
 	}
 	/**
 	 * URL: http://localhost:8080/MF0966_Examen-REST_Ejercicio-Casa/api/resenas/5
@@ -48,6 +49,7 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 		for (int i = 0; i<listaResenas.size(); i++) {
 			if (listaResenas.get(i).getId().equals(id)) {
 				LOGGER.info("Se encontró una reseña con id: " + id);
+				Globales.daoResenas.getById(id);
 				resenaEncontrado = listaResenas.get(i);
 			}
 		}
