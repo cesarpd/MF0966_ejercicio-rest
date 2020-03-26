@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -75,7 +76,7 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 	@POST
 	@Path("/crear")
 
-	public Response createUser(Resena resena) {
+	public Response createResena(Resena resena) {
 
 		try {
 			Globales.daoResenas.insert(resena);
@@ -85,6 +86,29 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 		}
 		return Response.ok(resena).build();
 
+	}	
+	@DELETE
+	@Path("/borrar/{id: \\d+}")
+	
+	public Response deleteResena(@PathParam("id") Integer id) {
+		
+		Resena resenaEncontrado = null;
+		
+		for (int i = 0; i<listaResenas.size(); i++) {
+			if (listaResenas.get(i).getId().equals(id)) {
+				LOGGER.info("Se encontró una reseña con id: " + id);
+				resenaEncontrado = listaResenas.get(i);
+				Globales.daoResenas.delete(id);
+			}
+		}
+		
+		if (resenaEncontrado == null) {
+			LOGGER.info("NO se encontró una reseña con id: " + id);
+			return Response.status(Status.BAD_REQUEST).entity("No se encuentra la reseña").build();
+		} else {
+			return Response.ok(resenaEncontrado).build();
+		}
+		
 	}	
 	
 

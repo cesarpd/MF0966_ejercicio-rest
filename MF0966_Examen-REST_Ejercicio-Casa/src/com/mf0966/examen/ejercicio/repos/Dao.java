@@ -6,6 +6,6 @@ public interface Dao<T> {
 	
 	Integer insert(T objeto);
 	void update(T objeto);
-	void delete(Long id);
+	void delete(Integer id);
 
 }

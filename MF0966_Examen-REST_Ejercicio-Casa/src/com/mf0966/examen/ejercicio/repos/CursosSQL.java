@@ -196,7 +196,7 @@ public class CursosSQL implements Dao<Curso> {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 		
 	}
