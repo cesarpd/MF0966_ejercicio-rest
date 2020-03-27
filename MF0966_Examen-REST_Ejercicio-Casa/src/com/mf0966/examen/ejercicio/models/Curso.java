@@ -11,6 +11,8 @@ public class Curso {
 	private String nombre, identificador, horas;
 	
 	private Profesor profesor;
+	private Resena resena;
+	
 
 	public Curso(Integer id, String nombre, String identificador, String horas, Profesor profesor) {
 		setId(id);
@@ -19,12 +21,29 @@ public class Curso {
 		setHoras(horas);
 		setProfesor(profesor);
 	}
+	public Curso(Integer id, String nombre, String identificador, String horas, Profesor profesor, Resena resena) {
+		setId(id);
+		setNombre(nombre);
+		setIdentificador(identificador);
+		setHoras(horas);
+		setProfesor(profesor);
+		setResena(resena);
+	}
 	public Curso(String id, String nombre, String identificador, String horas, String profesor) {
 		setId(id);
 		setNombre(nombre);
 		setIdentificador(identificador);
 		setHoras(horas);
 		setProfesor(profesor);
+	}
+
+	public Curso(String id, String nombre, String identificador, String horas, String profesor, String resena) {
+		setId(id);
+		setNombre(nombre);
+		setIdentificador(identificador);
+		setHoras(horas);
+		setProfesor(profesor);
+		setResena(resena);
 	}
 
 	
@@ -53,6 +72,18 @@ public class Curso {
 		}
 		
 	}
+	private void setResena(String resena) {
+		if (resena == null) {
+			LOGGER.info("Debes seleccionar una resena");
+		} else {
+			try {
+				setResena(new Resena(Integer.parseInt(resena), null, null, null));
+			} catch (NumberFormatException e) {
+				LOGGER.info("El id de profesor debe ser numérico");
+			}
+		}
+		
+	}
 
 	public Integer getId() {
 		return id;
@@ -72,6 +103,9 @@ public class Curso {
 
 	public Profesor getProfesor() {
 		return profesor;
+	}
+	public Resena getResena() {
+		return resena;
 	}
 
 	public void setId(Integer id) {
@@ -93,6 +127,11 @@ public class Curso {
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
+
+	public void setResena(Resena resena) {
+		this.resena = resena;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

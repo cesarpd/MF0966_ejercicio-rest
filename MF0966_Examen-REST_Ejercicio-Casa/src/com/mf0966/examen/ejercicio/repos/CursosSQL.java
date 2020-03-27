@@ -13,13 +13,15 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.mf0966.examen.ejercicio.exceptions.RepositoriosException;
+import com.mf0966.examen.ejercicio.models.Alumno;
 import com.mf0966.examen.ejercicio.models.Curso;
 import com.mf0966.examen.ejercicio.models.Profesor;
+import com.mf0966.examen.ejercicio.models.Resena;
 
 public class CursosSQL implements Dao<Curso> {
 
-	private static final String SQL_GET_ALL = "CALL ApiCursos_GetAll()";
-	private static final String SQL_GET_BY_ID = "CALL ApiCursos_GetById(?)";
+	private static final String SQL_GET_ALL = "CALL cursoResenagetAll()";
+	private static final String SQL_GET_BY_ID = "CALL cursoResenaById(?)";
 
 	private final String url, usuario, password;
 
@@ -133,12 +135,14 @@ public class CursosSQL implements Dao<Curso> {
 					Curso curso;
 					Profesor profesor;
 
+
 					while (rs.next()) {
 
 						profesor = new Profesor(rs.getInt("p.codigo"), rs.getString("p.nombre"), rs.getString("p.apellidos"));
 						
 						curso = new Curso(rs.getInt("c.codigo"), rs.getString("c.nombre"),
 								rs.getString("c.identificador"), rs.getString("c.nHoras"), profesor);
+						
 
 						cursos.add(curso);
 					}
@@ -159,16 +163,22 @@ public class CursosSQL implements Dao<Curso> {
 	public Curso getById(Integer id) {
 		try (Connection con = getConexion()) {
 			try (CallableStatement s = con.prepareCall(SQL_GET_BY_ID)) {
+				
+				s.setInt(1, id);
+
 				try (ResultSet rs = s.executeQuery()) {
 
 					Curso curso = null;
-					Profesor profesor = null;
+					Profesor profesor ;
+					Resena resena;
+					Alumno alumno = null; 
 
 					if (rs.next()) {
 						profesor = new Profesor(rs.getInt("p.codigo"), rs.getString("p.nombre"), rs.getString("p.apellidos"));
-						
+						resena = new Resena(rs.getInt("r.codigo"), rs.getString("r.texto"),null, alumno);
+
 						curso = new Curso(rs.getInt("c.codigo"), rs.getString("c.nombre"),
-								rs.getString("c.identificador"), rs.getString("c.nHoras"), profesor);
+								rs.getString("c.identificador"), rs.getString("c.nHoras"), profesor, resena);
 					}
 
 					return curso;
