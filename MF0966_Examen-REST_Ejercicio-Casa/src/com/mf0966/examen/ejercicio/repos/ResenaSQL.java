@@ -22,6 +22,7 @@ public class ResenaSQL implements Dao<Resena> {
 	private static final String SQL_GET_ALL = "CALL resenasGetAll()";
 	private static final String SQL_GET_BY_ID = "CALL resenasGetById(?)";
 	private static final String SQL_INSERT = "CALL resenasInsert(?,?,?,?)";
+	private static final String SQL_UPDATE = "CALL resenasUpdate(?,?,?)";
 	private static final String SQL_DELETE = "CALL resenasDelete(?)";
 
 	private final String url, usuario, password;
@@ -230,6 +231,30 @@ public class ResenaSQL implements Dao<Resena> {
 	}
 
 	@Override
+	public void update(Resena resena) {
+		try (Connection con = getConexion()) {
+			try (CallableStatement s = con.prepareCall(SQL_UPDATE)) {
+				
+				s.setInt(1, resena.getId());
+				s.setString(2, resena.getResena());
+				s.setInt(3, resena.getAlumno().getId());						
+
+				int numeroRegistrosModificados = s.executeUpdate();
+
+				if (numeroRegistrosModificados != 1) {
+					throw new RepositoriosException("Número de registros modificados: " + numeroRegistrosModificados);
+				}
+
+
+			} catch (SQLException e) {
+				throw new RepositoriosException("Error al crear la sentencia", e);
+			}
+		} catch (SQLException e) {
+			throw new RepositoriosException("Error al conectar", e);
+		}		
+	}
+	
+	@Override
 	public void delete(Integer id) {
 		try (Connection con = getConexion()) {
 			try (CallableStatement s = con.prepareCall(SQL_DELETE)) {
@@ -249,10 +274,5 @@ public class ResenaSQL implements Dao<Resena> {
 		}
 	}
 
-	@Override
-	public void update(Resena resena) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

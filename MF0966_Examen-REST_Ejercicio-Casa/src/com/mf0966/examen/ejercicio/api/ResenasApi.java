@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -89,6 +90,22 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 		return Response.ok(resena).build();
 
 	}	
+
+	@PUT
+	@Path("/modificar")
+	
+	public Response modificarResena(Resena resena) {
+		
+		try {
+			Globales.daoResenas.update(resena);
+		} catch (NullPointerException e) {
+			LOGGER.info("Null pointer exception al insertar la sentencia: " + e);
+			return Response.status(Status.BAD_REQUEST).entity("Faltan argumentos en la sentencia").build();			
+		}
+		return Response.ok(resena).build();
+		
+	}	
+	
 	@DELETE
 	@Path("/borrar/{id: \\d+}")
 	
