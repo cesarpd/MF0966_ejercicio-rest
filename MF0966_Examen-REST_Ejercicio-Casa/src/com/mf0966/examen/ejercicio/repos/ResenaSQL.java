@@ -22,7 +22,7 @@ public class ResenaSQL implements Dao<Resena> {
 	private static final String SQL_GET_ALL = "CALL resenasGetAll()";
 	private static final String SQL_GET_BY_ID = "CALL resenasGetById(?)";
 	private static final String SQL_INSERT = "CALL resenasInsert(?,?,?,?)";
-	private static final String SQL_UPDATE = "CALL resenasUpdate(?,?,?)";
+	private static final String SQL_UPDATE = "CALL resenasUpdate(?,?,?,?)";
 	private static final String SQL_DELETE = "CALL resenasDelete(?)";
 
 	private final String url, usuario, password;
@@ -238,6 +238,7 @@ public class ResenaSQL implements Dao<Resena> {
 				s.setInt(1, resena.getId());
 				s.setString(2, resena.getResena());
 				s.setInt(3, resena.getAlumno().getId());						
+				s.setInt(4, resena.getCurso().getId());						
 
 				int numeroRegistrosModificados = s.executeUpdate();
 
