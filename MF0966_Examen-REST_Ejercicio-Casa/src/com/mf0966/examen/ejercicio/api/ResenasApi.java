@@ -50,8 +50,8 @@ private static final Logger LOGGER = Logger.getLogger(ResenasApi.class.getCanoni
 		for (int i = 0; i<listaResenas.size(); i++) {
 			if (listaResenas.get(i).getId().equals(id)) {
 				LOGGER.info("Se encontró una reseña con id: " + id);
-				Globales.daoResenas.getById(id);
-				resenaEncontrado = listaResenas.get(i);
+				resenaEncontrado = Globales.daoResenas.getById(id);
+
 			}
 		}
 		

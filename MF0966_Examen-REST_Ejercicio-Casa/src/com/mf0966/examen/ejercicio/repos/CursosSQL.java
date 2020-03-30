@@ -134,12 +134,15 @@ public class CursosSQL implements Dao<Curso> {
 
 					Curso curso;
 					Profesor profesor;
+					//Resena resena;
+					//Alumno alumno = null; 
 
 
 					while (rs.next()) {
 
 						profesor = new Profesor(rs.getInt("p.codigo"), rs.getString("p.nombre"), rs.getString("p.apellidos"));
-						
+						//resena = new Resena(rs.getInt("r.codigo"), rs.getString("r.texto"),null, null);
+
 						curso = new Curso(rs.getInt("c.codigo"), rs.getString("c.nombre"),
 								rs.getString("c.identificador"), rs.getString("c.nHoras"), profesor);
 						
@@ -175,6 +178,7 @@ public class CursosSQL implements Dao<Curso> {
 
 					if (rs.next()) {
 						profesor = new Profesor(rs.getInt("p.codigo"), rs.getString("p.nombre"), rs.getString("p.apellidos"));
+						alumno = new Alumno(rs.getInt("a.codigo"), rs.getString("a.nombre"), rs.getString("a.apellidos"));
 						resena = new Resena(rs.getInt("r.codigo"), rs.getString("r.texto"),null, alumno);
 
 						curso = new Curso(rs.getInt("c.codigo"), rs.getString("c.nombre"),

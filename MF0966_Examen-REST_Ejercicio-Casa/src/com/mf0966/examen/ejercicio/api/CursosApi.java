@@ -51,8 +51,8 @@ public class CursosApi {
 		for (int i = 0; i<listaCursos.size(); i++) {
 			if (listaCursos.get(i).getId().equals(id)) {
 				LOGGER.info("Se encontró un curso con id: " + id);
-				Globales.daoCursos.getById(id);
-				cursoEncontrado = listaCursos.get(i);
+				
+				cursoEncontrado = Globales.daoCursos.getById(id);
 			}
 		}
 		

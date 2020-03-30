@@ -25,6 +25,7 @@ public class Resena {
 		setAlumno(alumno);
 	}
 
+
 	// Constructor vacio
 	public Resena() {
 	}

@@ -79,7 +79,7 @@ public class Curso {
 			try {
 				setResena(new Resena(Integer.parseInt(resena), null, null, null));
 			} catch (NumberFormatException e) {
-				LOGGER.info("El id de profesor debe ser numérico");
+				LOGGER.info("El id de la resena debe ser numérico");
 			}
 		}
 		
